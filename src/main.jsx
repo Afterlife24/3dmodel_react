@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.css'
 
-<<<<<<< HEAD
 class ErrorBoundary extends React.Component {
     constructor(props) {
         super(props)
@@ -37,10 +36,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <ErrorBoundary>
             <App />
         </ErrorBoundary>
-=======
-ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-        <App />
->>>>>>> c39dfe77af4089584a5a57c9565e5884a5c47c3e
     </React.StrictMode>,
 )
