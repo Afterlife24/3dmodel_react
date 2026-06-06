@@ -9,14 +9,14 @@ import {
 } from 'livekit-client'
 
 // Flask token server URL — set in .env as VITE_TOKEN_SERVER
-const TOKEN_SERVER = import.meta.env.VITE_TOKEN_SERVER || 'http://localhost:5001'
+const TOKEN_SERVER = import.meta.env.VITE_TOKEN_SERVER
 
 // Generate a random visitor name
 function guestName() {
     return 'visitor-' + Math.random().toString(36).slice(2, 7)
 }
 
-export function useLiveKit({ onAnimationChange }) {
+export function useLiveKit({ onAnimationChange, enabled = true }) {
     // 'connecting' | 'connected' | 'greeting' | 'listening' | 'speaking' | 'disconnected' | 'error'
     const [status, setStatus] = useState('connecting')
     const [agentText, setAgentText] = useState('')
@@ -24,7 +24,9 @@ export function useLiveKit({ onAnimationChange }) {
     const [errorMsg, setErrorMsg] = useState('')
 
     const roomRef = useRef(null)
+    const localTrackRef = useRef(null)
     const isFirstSpeech = useRef(true)
+    const [isMicMuted, setIsMicMuted] = useState(false)
 
     const handleAgentConnected = useCallback(() => {
         // Agent joined room — stay in 'connected', wait for first speech
@@ -33,6 +35,12 @@ export function useLiveKit({ onAnimationChange }) {
 
     // ── Connect to LiveKit room ───────────────────────────────────────────
     useEffect(() => {
+        // Don't connect until enabled (e.g. user is authenticated)
+        if (!enabled) {
+            setStatus('connecting')
+            return
+        }
+
         let room = null
         let localTrack = null
         let cancelled = false
@@ -101,7 +109,37 @@ export function useLiveKit({ onAnimationChange }) {
                     }
                 })
 
-                // Data messages from agent (transcripts)
+                // Transcription received from agent SDK (automatic forwarding)
+                room.on(RoomEvent.TranscriptionReceived, (segments, participant) => {
+                    // segments is an array of { text, final, ... }
+                    // Combine all segment texts
+                    const text = segments.map(s => s.text).join(' ').trim()
+                    if (!text) return
+
+                    // Filter out function tool calls — they look like JSON or contain tool patterns
+                    if (
+                        text.startsWith('{') ||
+                        text.startsWith('[') ||
+                        text.includes('"name":') ||
+                        text.includes('"action":') ||
+                        text.includes('function_call') ||
+                        text.includes('navigate_to_section') ||
+                        text.includes('open_url') ||
+                        text.includes('get_product_info')
+                    ) {
+                        return
+                    }
+
+                    if (participant && !participant.isLocal) {
+                        // Agent speaking
+                        setAgentText(text)
+                    } else if (participant && participant.isLocal) {
+                        // User (STT transcription of local audio)
+                        setUserText(text)
+                    }
+                })
+
+                // Fallback: data messages from agent (legacy custom transcripts)
                 room.on(RoomEvent.DataReceived, (data) => {
                     try {
                         const msg = JSON.parse(new TextDecoder().decode(data))
@@ -113,7 +151,7 @@ export function useLiveKit({ onAnimationChange }) {
                 })
 
                 // 4. Connect to LiveKit cloud
-                const livekitUrl = import.meta.env.VITE_LIVEKIT_URL || 'wss://afterlife-r47izg99.livekit.cloud'
+                const livekitUrl = import.meta.env.VITE_LIVEKIT_URL
                 await room.connect(livekitUrl, token)
 
                 if (cancelled) {
@@ -121,21 +159,68 @@ export function useLiveKit({ onAnimationChange }) {
                     return
                 }
 
-                // 5. Publish local microphone — stay 'connected', NOT 'listening' yet
-                // Status moves to 'listening' only AFTER agent finishes greeting
-                localTrack = await createLocalAudioTrack({
-                    echoCancellation: true,
-                    noiseSuppression: true,
-                    autoGainControl: true,
-                    channelCount: 1,
-                })
-                await room.localParticipant.publishTrack(localTrack)
+                // 5. Register RPC handler for agent navigation commands
+                // Guarded: older livekit-client versions may not have registerRpcMethod.
+                // A failure here must NOT surface as a connection error.
+                try {
+                    if (typeof room.localParticipant.registerRpcMethod === 'function') {
+                        console.log('[Navigation] Registering RPC method "navigate"')
+                        room.localParticipant.registerRpcMethod('navigate', async (data) => {
+                            try {
+                                const navigationData = JSON.parse(data.payload)
+                                console.log('[Navigation] RPC received:', navigationData)
+
+                                if (navigationData.type === 'navigate') {
+                                    if (navigationData.action === 'open_url') {
+                                        window.open(navigationData.url, '_blank')
+                                        return JSON.stringify({ success: true, message: 'URL opened' })
+                                    } else if (navigationData.action === 'navigate_same_tab') {
+                                        let targetUrl = navigationData.path
+                                        if (navigationData.section) {
+                                            const scrollSections = ['vision', 'services', 'testimonials', 'meet-assistants', 'demo', 'ai-workforce', 'whatsapp-agent', 'web-agent', 'industries']
+                                            const action = scrollSections.includes(navigationData.section) ? 'scroll' : 'expand'
+                                            targetUrl = `${navigationData.path}?action=${action}&section=${navigationData.section}`
+                                        }
+                                        const event = new CustomEvent('agent-navigate', { detail: { url: targetUrl } })
+                                        window.dispatchEvent(event)
+                                        return JSON.stringify({ success: true, message: 'Navigation initiated' })
+                                    }
+                                }
+                                return JSON.stringify({ success: false, message: 'Unknown action' })
+                            } catch (err) {
+                                console.error('[Navigation] RPC error:', err)
+                                return JSON.stringify({ success: false, message: `Error: ${err}` })
+                            }
+                        })
+                    } else {
+                        console.warn('[Navigation] registerRpcMethod not available in this livekit-client version')
+                    }
+                } catch (rpcErr) {
+                    console.warn('[Navigation] Failed to register RPC method:', rpcErr)
+                }
+
+                // 6. Publish local microphone — stay 'connected', NOT 'listening' yet
+                // Status moves to 'listening' only AFTER agent finishes greeting.
+                // A mic failure should not show a connection error either.
+                try {
+                    localTrack = await createLocalAudioTrack({
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true,
+                        channelCount: 1,
+                    })
+                    await room.localParticipant.publishTrack(localTrack)
+                    localTrackRef.current = localTrack
+                } catch (micErr) {
+                    console.warn('[Mic] Failed to publish local audio track:', micErr)
+                }
                 // Do NOT set 'listening' here — wait for agent to speak first
 
             } catch (err) {
+                // Only real connection failures (token fetch / room.connect) reach here.
                 if (!cancelled) {
                     console.error('LiveKit connection error:', err)
-                    setErrorMsg(err.message)
+                    setErrorMsg('Network error. Please check your connection and try again.')
                     setStatus('error')
                     onAnimationChange('idle')
                 }
@@ -144,26 +229,79 @@ export function useLiveKit({ onAnimationChange }) {
 
         // Wire agent speaking state → animations + status
         function wireAgentParticipant(participant) {
-            participant.on(ParticipantEvent.IsSpeakingChanged, (speaking) => {
-                if (speaking) {
+            let speakingTimeout = null
+            let isSpeaking = false
+
+            // Use ActiveSpeakersChanged at room level for more reliable detection
+            room.on(RoomEvent.ActiveSpeakersChanged, (speakers) => {
+                const agentSpeaking = speakers.some(s => !s.isLocal)
+
+                if (agentSpeaking && !isSpeaking) {
+                    isSpeaking = true
+
+                    // Cancel any pending idle transition
+                    if (speakingTimeout) {
+                        clearTimeout(speakingTimeout)
+                        speakingTimeout = null
+                    }
+
                     if (isFirstSpeech.current) {
-                        // First speech = greeting → wave + talk simultaneously
+                        // First speech = greeting → wave then talk
                         isFirstSpeech.current = false
                         onAnimationChange('wave')
-                        setTimeout(() => onAnimationChange('talk'), 2200)
+                        setTimeout(() => onAnimationChange('talk'), 1500)
                     } else {
                         onAnimationChange('talk')
                     }
                     setStatus('speaking')
-                } else {
-                    // Agent finished speaking (greeting done or reply done)
-                    // NOW go to listening
-                    setStatus('listening')
-                    onAnimationChange('idle')
+                } else if (!agentSpeaking && isSpeaking) {
+                    isSpeaking = false
+
+                    // Debounce: TTS streams have natural pauses between chunks.
+                    // 600ms is enough to bridge short pauses without feeling laggy.
+                    speakingTimeout = setTimeout(() => {
+                        setStatus('listening')
+                        onAnimationChange('idle')
+                        speakingTimeout = null
+                    }, 600)
+                }
+            })
+
+            // Fallback: IsSpeakingChanged on the participant for edge cases
+            participant.on(ParticipantEvent.IsSpeakingChanged, (speaking) => {
+                if (speaking && !isSpeaking) {
+                    isSpeaking = true
+
+                    if (speakingTimeout) {
+                        clearTimeout(speakingTimeout)
+                        speakingTimeout = null
+                    }
+
+                    if (isFirstSpeech.current) {
+                        isFirstSpeech.current = false
+                        onAnimationChange('wave')
+                        setTimeout(() => onAnimationChange('talk'), 1500)
+                    } else {
+                        onAnimationChange('talk')
+                    }
+                    setStatus('speaking')
+                } else if (!speaking && isSpeaking) {
+                    isSpeaking = false
+
+                    speakingTimeout = setTimeout(() => {
+                        setStatus('listening')
+                        onAnimationChange('idle')
+                        speakingTimeout = null
+                    }, 600)
                 }
             })
 
             participant.on(ParticipantEvent.TrackMuted, () => {
+                isSpeaking = false
+                if (speakingTimeout) {
+                    clearTimeout(speakingTimeout)
+                    speakingTimeout = null
+                }
                 setStatus('listening')
                 onAnimationChange('idle')
             })
@@ -174,9 +312,22 @@ export function useLiveKit({ onAnimationChange }) {
         return () => {
             cancelled = true
             if (localTrack) localTrack.stop()
+            localTrackRef.current = null
             if (room) room.disconnect()
         }
-    }, [handleAgentConnected, onAnimationChange])
+    }, [handleAgentConnected, onAnimationChange, enabled])
 
-    return { status, agentText, userText, errorMsg }
+    const toggleMic = useCallback(() => {
+        const track = localTrackRef.current
+        if (!track) return
+        if (isMicMuted) {
+            track.unmute()
+            setIsMicMuted(false)
+        } else {
+            track.mute()
+            setIsMicMuted(true)
+        }
+    }, [isMicMuted])
+
+    return { status, agentText, userText, errorMsg, isMicMuted, toggleMic }
 }
