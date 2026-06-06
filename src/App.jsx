@@ -155,12 +155,9 @@ function App() {
         </div>
       )}
 
-      {/* Mobile-only tagline — always visible on home, pinned below hero text */}
+      {/* Tagline — permanently visible on home, pinned below hero text */}
       {isHome && (
-        <p
-          className="hero-tagline hero-tagline-floating sm:hidden"
-          aria-hidden="true"
-        >
+        <p className="hero-tagline hero-tagline-floating" aria-hidden="true">
           {t("talkToMe.tagline")}
         </p>
       )}
@@ -284,7 +281,7 @@ function App() {
         <div
           className="absolute z-30 flex flex-col items-center gap-2 sm:gap-3 px-4"
           style={{
-            bottom: "clamp(4rem, 12vh, 6rem)",
+            bottom: "clamp(1%, 3vh, 5%)",
             left: "50%",
             transform: "translateX(-50%)",
             width: "100%",
@@ -299,12 +296,9 @@ function App() {
               {t("talkToMe.micDenied")}
             </div>
           )}
-          <p className="hero-tagline hidden sm:block">
-            {t("talkToMe.tagline")}
-          </p>
           <button
             onClick={handleTalkToMeWithIntent}
-            className="talk-to-me-btn"
+            className="talk-to-me-btn talk-btn-cta"
             aria-label={t("talkToMe.button")}
           >
             <svg
@@ -340,11 +334,6 @@ function App() {
             maxWidth: "480px",
           }}
         >
-          {/* Tagline stays visible on desktop only */}
-          <p className="hero-tagline hidden sm:block">
-            {t("talkToMe.tagline")}
-          </p>
-
           {/* Mic toggle button — shows connection states then listening/muted */}
           <button
             onClick={

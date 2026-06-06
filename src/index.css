@@ -485,7 +485,7 @@ body {
 
 .hero-brand-text {
   position: fixed;
-  top: 20%;
+  top: 14%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: "Orbitron", sans-serif;
@@ -553,6 +553,15 @@ body {
   transform: none;
 }
 
+/* Desktop: tagline under the hero text */
+@media screen and (min-width: 768px) {
+  .hero-tagline-floating {
+    top: 22%;
+    font-size: clamp(16px, 2vw, 22px);
+    letter-spacing: clamp(3px, 0.5vw, 5px);
+  }
+}
+
 @keyframes hero-brand-appear {
   from {
     opacity: 0;
@@ -606,10 +615,10 @@ body {
   border-radius: 999px;
   background: linear-gradient(
     135deg,
-    rgba(72, 229, 255, 0.15) 0%,
-    rgba(0, 128, 255, 0.15) 100%
+    rgba(72, 229, 255, 0.2) 0%,
+    rgba(0, 128, 255, 0.2) 100%
   );
-  border: 2px solid rgba(72, 229, 255, 0.6);
+  border: 2px solid rgba(72, 229, 255, 0.7);
   color: #48e5ff;
   font-family: "Orbitron", sans-serif;
   font-size: clamp(11px, 2.5vw, 14px);
@@ -619,11 +628,17 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow:
-    0 0 30px rgba(72, 229, 255, 0.2),
+    0 0 20px rgba(72, 229, 255, 0.4),
+    0 0 40px rgba(72, 229, 255, 0.2),
     0 0 60px rgba(72, 229, 255, 0.1),
-    inset 0 0 20px rgba(72, 229, 255, 0.05);
+    inset 0 0 15px rgba(72, 229, 255, 0.1);
   backdrop-filter: blur(8px);
-  animation: talk-btn-pulse 2.5s ease-in-out infinite;
+  animation: none;
+}
+
+/* Glow pulse ONLY for the initial "Talk to Me" state */
+.talk-to-me-btn.talk-btn-cta {
+  animation: talk-btn-glow-pulse 2s ease-in-out infinite;
 }
 
 .talk-to-me-btn:hover {
@@ -668,7 +683,7 @@ body {
 }
 
 .talk-to-me-btn.mic-btn-listening {
-  animation: talk-btn-pulse 1.8s ease-in-out infinite;
+  animation: talk-btn-glow-pulse 1.8s ease-in-out infinite;
 }
 
 @keyframes talk-btn-pulse {
@@ -684,6 +699,27 @@ body {
       0 0 40px rgba(72, 229, 255, 0.35),
       0 0 80px rgba(72, 229, 255, 0.15),
       inset 0 0 25px rgba(72, 229, 255, 0.08);
+  }
+}
+
+/* Talk to Me — strong cyan glow pulse */
+@keyframes talk-btn-glow-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 20px rgba(72, 229, 255, 0.4),
+      0 0 40px rgba(72, 229, 255, 0.2),
+      0 0 60px rgba(72, 229, 255, 0.1),
+      inset 0 0 15px rgba(72, 229, 255, 0.1);
+    border-color: rgba(72, 229, 255, 0.6);
+  }
+  50% {
+    box-shadow:
+      0 0 30px rgba(72, 229, 255, 0.6),
+      0 0 60px rgba(72, 229, 255, 0.35),
+      0 0 90px rgba(72, 229, 255, 0.15),
+      inset 0 0 20px rgba(72, 229, 255, 0.15);
+    border-color: rgba(72, 229, 255, 0.9);
   }
 }
 
