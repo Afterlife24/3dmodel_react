@@ -160,7 +160,7 @@ export default function AdditionalServices() {
                 key={service.id}
                 onMouseEnter={() => setHoveredService(service.id)}
                 onMouseLeave={() => setHoveredService(null)}
-                className="group relative bg-[#0a2a3a]/80 backdrop-blur-xl border border-cyan-500/20 rounded-3xl p-8 hover:bg-[#0d3a4a]/90 transition-all duration-500 hover:-translate-y-2 shadow-lg hover:shadow-2xl"
+                className="group relative bg-[#0a2a3a]/80 backdrop-blur-xl border border-cyan-500/20 rounded-3xl p-8 transition-all duration-500 md:hover:bg-[#0d3a4a]/90 md:hover:-translate-y-2 shadow-lg md:hover:shadow-2xl"
               >
                 {/* Icon */}
                 <div

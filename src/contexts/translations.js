@@ -344,6 +344,7 @@ export const translations = {
     "calling.searchCountry": "Search country...",
     "calling.callMe": "Call Me",
     "calling.callInitiated": "Call Initiated!",
+    "calling.callFailed": "Call Failed",
 
     // Auth
     "auth.login.title": "Welcome Back",
@@ -715,6 +716,7 @@ export const translations = {
     "calling.searchCountry": "Rechercher un pays...",
     "calling.callMe": "Appelez-moi",
     "calling.callInitiated": "Appel lancé !",
+    "calling.callFailed": "Échec de l'appel",
 
     // Auth
     "auth.login.title": "Bon retour",
@@ -1086,6 +1088,7 @@ export const translations = {
     "calling.searchCountry": "ابحث عن بلد...",
     "calling.callMe": "اتصل بي",
     "calling.callInitiated": "تم بدء المكالمة!",
+    "calling.callFailed": "فشل الاتصال",
 
     // Auth
     "auth.login.title": "مرحباً بعودتك",

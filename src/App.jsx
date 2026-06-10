@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, lazy, Suspense } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { Canvas } from "@react-three/fiber";
 import Model from "./components/Model";
@@ -10,30 +10,42 @@ import { useLiveKit } from "./hooks/useLiveKit";
 import { useAuth } from "./contexts/AuthContext";
 import { useLanguage } from "./contexts/LanguageContext";
 
-// Pages
-import About from "./pages/About";
-import AIAssistants from "./pages/AIAssistants";
-import AdditionalServices from "./pages/AdditionalServices";
-import Blog from "./pages/Blog";
-import Careers from "./pages/Careers";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
-import VerifyEmail from "./pages/VerifyEmail";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import CookiePolicy from "./pages/CookiePolicy";
-import TermsOfService from "./pages/TermsOfService";
-import CompanyDetails from "./pages/CompanyDetails";
+// Lazy-loaded pages — reduces initial bundle, speeds up first paint
+const About = lazy(() => import("./pages/About"));
+const AIAssistants = lazy(() => import("./pages/AIAssistants"));
+const AdditionalServices = lazy(() => import("./pages/AdditionalServices"));
+const Blog = lazy(() => import("./pages/Blog"));
+const Careers = lazy(() => import("./pages/Careers"));
+const Login = lazy(() => import("./pages/Login"));
+const Signup = lazy(() => import("./pages/Signup"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const VerifyEmail = lazy(() => import("./pages/VerifyEmail"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+const CompanyDetails = lazy(() => import("./pages/CompanyDetails"));
 
 function App() {
   const [currentAnimation, setCurrentAnimation] = useState("idle");
   const [voiceSessionStarted, setVoiceSessionStarted] = useState(false);
   const [micDenied, setMicDenied] = useState(false);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" && window.innerWidth < 768,
+  );
   const location = useLocation();
   const navigate = useNavigate();
   const { user, isLoading } = useAuth();
   const { t } = useLanguage();
+
+  // Track viewport size for responsive layout
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const isHome = location.pathname === "/";
   const isAuthed = !isLoading && !!user;
@@ -148,18 +160,14 @@ function App() {
       {/* Shared NavBar on all pages */}
       <NavBar />
 
-      {/* Hero brand name — static, behind 3D model at head level */}
+      {/* Hero text group — brand name + tagline in a flex column, auto-spaced */}
       {isHome && (
-        <div className="hero-brand-text" aria-hidden="true">
-          AUTONOMIQ AI
+        <div className="hero-text-group" aria-hidden="true">
+          <div className="hero-brand-text">AUTONOMIQ AI</div>
+          <p className="hero-tagline hero-tagline-floating">
+            {t("talkToMe.tagline")}
+          </p>
         </div>
-      )}
-
-      {/* Tagline — permanently visible on home, pinned below hero text */}
-      {isHome && (
-        <p className="hero-tagline hero-tagline-floating" aria-hidden="true">
-          {t("talkToMe.tagline")}
-        </p>
       )}
 
       {/* 3D Avatar — always visible on home; gated by auth+voiceSession for widget mode */}
@@ -170,13 +178,17 @@ function App() {
             position: "fixed",
             transition: "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
             zIndex: isHome ? 12 : 60,
-            // Fullscreen on home, corner widget on other pages
+            // Home: constrained to middle area, leaving room for hero text + CTA
+            // Other pages: small corner widget
             ...(isHome
               ? {
-                  inset: 0,
+                  top: isMobile ? "20%" : "15%",
+                  bottom: isMobile ? "12%" : "8%",
+                  left: isMobile ? "5%" : "15%",
+                  right: isMobile ? "5%" : "15%",
                   borderRadius: 0,
-                  width: "100%",
-                  height: "100%",
+                  width: "auto",
+                  height: "auto",
                 }
               : {
                   bottom: 0,
@@ -196,7 +208,10 @@ function App() {
           {isHome && <Stage />}
 
           <Canvas
-            camera={{ position: [0, 1, 3], fov: isHome ? 50 : 40 }}
+            camera={{
+              position: [0, 1, 3],
+              fov: isHome ? 50 : 40,
+            }}
             style={{
               position: "absolute",
               inset: 0,
@@ -425,8 +440,8 @@ function App() {
       {/* WhatsApp + Calling agent orb buttons — home only */}
       {isHome && (
         <AgentButtons
-          whatsappUrl="https://wa.me/your-number"
-          callUrl="tel:+1234567890"
+          whatsappUrl={`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER}`}
+          callUrl={`tel:${import.meta.env.VITE_INBOUND_CALL_NUMBER}`}
         />
       )}
 
@@ -448,22 +463,33 @@ function App() {
           className="fixed left-0 right-0 bottom-0 z-20 overflow-y-auto"
           style={{ top: "64px" }}
         >
-          <Routes>
-            <Route path="/about" element={<About />} />
-            <Route path="/ai-assistants" element={<AIAssistants />} />
-            <Route path="/solutions" element={<AdditionalServices />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/careers" element={<Careers />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/verify-email" element={<VerifyEmail />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/cookie-policy" element={<CookiePolicy />} />
-            <Route path="/terms-of-service" element={<TermsOfService />} />
-            <Route path="/company-details" element={<CompanyDetails />} />
-          </Routes>
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center h-full">
+                <div
+                  className="talk-btn-loader"
+                  style={{ width: 24, height: 24 }}
+                />
+              </div>
+            }
+          >
+            <Routes>
+              <Route path="/about" element={<About />} />
+              <Route path="/ai-assistants" element={<AIAssistants />} />
+              <Route path="/solutions" element={<AdditionalServices />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/careers" element={<Careers />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/verify-email" element={<VerifyEmail />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/cookie-policy" element={<CookiePolicy />} />
+              <Route path="/terms-of-service" element={<TermsOfService />} />
+              <Route path="/company-details" element={<CompanyDetails />} />
+            </Routes>
+          </Suspense>
         </div>
       )}
     </div>

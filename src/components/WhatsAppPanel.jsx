@@ -60,13 +60,7 @@ const COUNTRIES = [
   },
 ];
 
-export default function WhatsAppPanel({
-  isOpen,
-  onClose,
-  whatsappNumber,
-  onMouseEnter,
-  onMouseLeave,
-}) {
+export default function WhatsAppPanel({ isOpen, onClose, whatsappNumber }) {
   const { t } = useLanguage();
   const [selectedCountry, setSelectedCountry] = useState(COUNTRIES[0]);
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -115,20 +109,38 @@ export default function WhatsAppPanel({
       c.code.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  const handleGetMessage = () => {
+  const handleGetMessage = async () => {
     if (!phoneNumber.trim()) return;
 
     setStatus("sending");
 
-    // Simulate sending — replace with actual API call
-    // TODO: Call your backend to trigger WhatsApp message to the number
     const fullNumber = `${selectedCountry.dialCode}${phoneNumber}`;
     console.log("[WhatsApp] Requesting message to:", fullNumber);
 
-    setTimeout(() => {
-      setStatus("sent");
+    try {
+      const backendUrl = import.meta.env.VITE_WHATSAPP_BACKEND_URL;
+      const response = await fetch(`${backendUrl}/whatsappDemo`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone_number: fullNumber }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        console.log("[WhatsApp] Message sent successfully:", data);
+        setStatus("sent");
+        setTimeout(() => setStatus("idle"), 3000);
+      } else {
+        console.error("[WhatsApp] Backend error:", data.error);
+        setStatus("error");
+        setTimeout(() => setStatus("idle"), 3000);
+      }
+    } catch (err) {
+      console.error("[WhatsApp] Network error:", err);
+      setStatus("error");
       setTimeout(() => setStatus("idle"), 3000);
-    }, 1500);
+    }
   };
 
   const handleMessageUs = () => {
@@ -146,12 +158,7 @@ export default function WhatsAppPanel({
   if (!isOpen) return null;
 
   return (
-    <div
-      ref={panelRef}
-      className="whatsapp-panel"
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
+    <div ref={panelRef} className="whatsapp-panel">
       {/* Header */}
       <div className="whatsapp-panel-header">
         <div className="whatsapp-panel-title">
@@ -282,7 +289,9 @@ export default function WhatsAppPanel({
             <span>
               {status === "sent"
                 ? t("whatsapp.messageSent")
-                : t("whatsapp.getMsg")}
+                : status === "error"
+                  ? t("whatsapp.error")
+                  : t("whatsapp.getMsg")}
             </span>
           </button>
 

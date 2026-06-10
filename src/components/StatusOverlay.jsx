@@ -17,13 +17,12 @@ export default function StatusOverlay({
 
   return (
     <div
-      className="absolute z-30 flex flex-col items-center gap-3"
+      className="absolute z-30 flex flex-col items-center gap-2 sm:gap-3"
       style={{
-        bottom: "4rem",
+        bottom: "clamp(2rem, 6vh, 4rem)",
         left: "50%",
         transform: "translateX(-50%)",
-        width: "90%",
-        maxWidth: "460px",
+        width: "min(90%, 460px)",
         pointerEvents: "none",
       }}
     >

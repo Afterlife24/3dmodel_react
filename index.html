@@ -6,9 +6,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#050508" />
   <title>Autonomiq — AI Assistant</title>
+
+  <!-- Preconnect to Google Fonts for faster font loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Non-blocking font loading (loaded async, applied when ready) -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=JetBrains+Mono:wght@200;300;400&display=swap"
+    media="print" onload="this.media='all'" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap"
+    media="print" onload="this.media='all'" />
+
+  <!-- Preload the critical Orbitron font (used for hero text) -->
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" />
+
+  <!-- Preload the 3D model so it starts downloading immediately -->
+  <link rel="preload" href="/idle_wave_talk_glb.glb" as="fetch" crossorigin />
+
   <style>
+    /* Critical CSS — prevents FOUC and sets initial background */
     body {
       background: #050508;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    /* Fallback font metrics to reduce CLS while web fonts load */
+    @font-face {
+      font-family: 'Orbitron-fallback';
+      src: local('Arial');
+      size-adjust: 105%;
+      ascent-override: 90%;
+      descent-override: 20%;
+      line-gap-override: 0%;
     }
   </style>
 </head>

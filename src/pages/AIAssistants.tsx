@@ -331,7 +331,7 @@ export default function AIAssistants() {
             {aiWorkforce.map((assistant) => (
               <div
                 key={assistant.id}
-                className="group relative rounded-3xl overflow-hidden bg-[#0a2a3a]/80 backdrop-blur-xl border border-cyan-500/20 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:bg-[#0d3a4a]/90 flex flex-col"
+                className="group relative rounded-3xl overflow-hidden bg-[#0a2a3a]/80 backdrop-blur-xl border border-cyan-500/20 shadow-xl transition-all duration-500 md:hover:shadow-2xl md:hover:-translate-y-2 md:hover:bg-[#0d3a4a]/90 flex flex-col"
               >
                 {/* Animated gradient glow effect on hover */}
                 <div
@@ -662,7 +662,7 @@ export default function AIAssistants() {
             {industries.map((industry, idx) => (
               <div
                 key={idx}
-                className="group relative rounded-2xl overflow-hidden bg-[#0a2a3a]/80 backdrop-blur-xl border border-cyan-500/20 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:bg-[#0d3a4a]/90 p-6 flex flex-col items-center justify-center text-center"
+                className="group relative rounded-2xl overflow-hidden bg-[#0a2a3a]/80 backdrop-blur-xl border border-cyan-500/20 shadow-lg transition-all duration-300 md:hover:shadow-2xl md:hover:-translate-y-2 md:hover:bg-[#0d3a4a]/90 p-6 flex flex-col items-center justify-center text-center"
               >
                 <div className="text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300 mb-3">
                   {industry.icon}

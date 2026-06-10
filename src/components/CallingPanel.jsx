@@ -60,13 +60,7 @@ const COUNTRIES = [
   },
 ];
 
-export default function CallingPanel({
-  isOpen,
-  onClose,
-  inboundNumber,
-  onMouseEnter,
-  onMouseLeave,
-}) {
+export default function CallingPanel({ isOpen, onClose, inboundNumber }) {
   const { t } = useLanguage();
   const [selectedCountry, setSelectedCountry] = useState(COUNTRIES[0]);
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -124,7 +118,7 @@ export default function CallingPanel({
     }
   };
 
-  const handleCallMe = () => {
+  const handleCallMe = async () => {
     if (!phoneNumber.trim()) return;
 
     setCallStatus("calling");
@@ -132,11 +126,30 @@ export default function CallingPanel({
     const fullNumber = `${selectedCountry.dialCode}${phoneNumber}`;
     console.log("[Calling] Requesting outbound call to:", fullNumber);
 
-    // TODO: Call your backend to dispatch the outbound call
-    setTimeout(() => {
-      setCallStatus("called");
+    try {
+      const backendUrl = import.meta.env.VITE_CALLING_BACKEND_URL;
+      const response = await fetch(`${backendUrl}/makeCall`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone_number: fullNumber }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        console.log("[Calling] Call dispatched:", data);
+        setCallStatus("called");
+        setTimeout(() => setCallStatus("idle"), 4000);
+      } else {
+        console.error("[Calling] Backend error:", data.error);
+        setCallStatus("error");
+        setTimeout(() => setCallStatus("idle"), 3000);
+      }
+    } catch (err) {
+      console.error("[Calling] Network error:", err);
+      setCallStatus("error");
       setTimeout(() => setCallStatus("idle"), 3000);
-    }, 1500);
+    }
   };
 
   const handlePhoneChange = (e) => {
@@ -149,12 +162,7 @@ export default function CallingPanel({
   if (!isOpen) return null;
 
   return (
-    <div
-      ref={panelRef}
-      className="calling-panel"
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
+    <div ref={panelRef} className="calling-panel">
       {/* Header */}
       <div className="calling-panel-header">
         <div className="calling-panel-title">
@@ -293,7 +301,9 @@ export default function CallingPanel({
             <span>
               {callStatus === "called"
                 ? t("calling.callInitiated")
-                : t("calling.callMe")}
+                : callStatus === "error"
+                  ? t("calling.callFailed")
+                  : t("calling.callMe")}
             </span>
           </button>
         </div>
