@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import AmbientBackground from "../shared-components/AmbientBackground";
 import { useLanguage } from "../contexts/LanguageContext";
 
@@ -19,6 +21,18 @@ export default function About() {
 
       <main className="flex-1 relative z-10 flex flex-col items-center p-4 md:p-8 pt-8 md:pt-12 overflow-y-auto">
         <div className="w-full max-w-4xl">
+          {/* Back to Home */}
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors mb-6 sm:mb-8 group"
+          >
+            <ArrowLeft
+              size={18}
+              className="group-hover:-translate-x-1 transition-transform"
+            />
+            <span className="text-sm font-medium">Back to Home</span>
+          </Link>
+
           <div className="bg-[#0a2a3a]/80 backdrop-blur-xl rounded-[1.5rem] sm:rounded-[2.5rem] p-5 sm:p-8 md:p-16 border border-cyan-500/20 shadow-2xl text-center relative overflow-hidden">
             {/* Decorative gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/10 to-transparent pointer-events-none"></div>
