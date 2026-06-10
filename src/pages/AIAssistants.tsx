@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
+  ArrowLeft,
   ArrowRight,
   Phone,
   MessageSquare,
@@ -199,6 +200,18 @@ export default function AIAssistants() {
       {/* Main Content */}
       <div className="flex-1 overflow-y-auto z-10 relative scroll-smooth">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+          {/* Back to Home */}
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors mb-6 sm:mb-8 group"
+          >
+            <ArrowLeft
+              size={18}
+              className="group-hover:-translate-x-1 transition-transform"
+            />
+            <span className="text-sm font-medium">Back to Home</span>
+          </Link>
+
           {/* Caption */}
           <div className="text-center mb-10 sm:mb-16">
             <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold mb-3 sm:mb-4 leading-tight">

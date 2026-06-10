@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
+  ArrowLeft,
   Globe,
   Smartphone,
   Database,
@@ -134,20 +136,34 @@ export default function AdditionalServices() {
 
       {/* Hero Section */}
       <section className="relative w-full pt-12 sm:pt-32 pb-12 sm:pb-20 px-4 md:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-[#0a2a3a]/80 backdrop-blur-md rounded-full mb-4 sm:mb-6 border border-cyan-500/30">
-            <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-400" />
-            <span className="text-xs sm:text-sm font-semibold text-gray-200">
-              {t("solutions.hero.badge")}
-            </span>
-          </div>
+        <div className="max-w-7xl mx-auto">
+          {/* Back to Home */}
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors mb-6 sm:mb-8 group"
+          >
+            <ArrowLeft
+              size={18}
+              className="group-hover:-translate-x-1 transition-transform"
+            />
+            <span className="text-sm font-medium">Back to Home</span>
+          </Link>
 
-          <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold text-white mb-4 sm:mb-6">
-            {t("solutions.hero.title")}
-          </h1>
-          <p className="text-base sm:text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-6 sm:mb-8">
-            {t("solutions.hero.subtitle")}
-          </p>
+          <div className="text-center">
+            <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-[#0a2a3a]/80 backdrop-blur-md rounded-full mb-4 sm:mb-6 border border-cyan-500/30">
+              <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-400" />
+              <span className="text-xs sm:text-sm font-semibold text-gray-200">
+                {t("solutions.hero.badge")}
+              </span>
+            </div>
+
+            <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold text-white mb-4 sm:mb-6">
+              {t("solutions.hero.title")}
+            </h1>
+            <p className="text-base sm:text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-6 sm:mb-8">
+              {t("solutions.hero.subtitle")}
+            </p>
+          </div>
         </div>
       </section>
 

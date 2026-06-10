@@ -284,7 +284,7 @@ function App() {
             <button
               onClick={() => navigate("/")}
               className="absolute inset-0 cursor-pointer"
-              style={{ background: "transparent", border: "none" }}
+              style={{ background: "transparent", border: "none", zIndex: 20 }}
               aria-label="Return to home"
             />
           )}
