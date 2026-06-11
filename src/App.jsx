@@ -6,6 +6,7 @@ import Stage from "./components/Stage";
 import TypewriterText from "./components/TypewriterText";
 import AgentButtons from "./components/AgentButtons";
 import NavBar from "./shared-components/NavBar";
+import CompanyDetailsModal from "./components/CompanyDetailsModal";
 import { useLiveKit } from "./hooks/useLiveKit";
 import { useAuth } from "./contexts/AuthContext";
 import { useLanguage } from "./contexts/LanguageContext";
@@ -30,6 +31,7 @@ function App() {
   const [currentAnimation, setCurrentAnimation] = useState("idle");
   const [voiceSessionStarted, setVoiceSessionStarted] = useState(false);
   const [micDenied, setMicDenied] = useState(false);
+  const [showCompanyForm, setShowCompanyForm] = useState(false);
   const [isMobile, setIsMobile] = useState(
     typeof window !== "undefined" && window.innerWidth < 768,
   );
@@ -145,6 +147,16 @@ function App() {
     return () =>
       window.removeEventListener("agent-navigate", handleAgentNavigate);
   }, [handleAgentNavigate]);
+
+  // Listen for agent-triggered company form event
+  useEffect(() => {
+    const handleShowCompanyForm = () => {
+      setShowCompanyForm(true);
+    };
+    window.addEventListener("show-company-form", handleShowCompanyForm);
+    return () =>
+      window.removeEventListener("show-company-form", handleShowCompanyForm);
+  }, []);
 
   // All pages are public — only the voice agent requires auth
   // No auth gate for navigation
@@ -502,6 +514,11 @@ function App() {
             </Routes>
           </Suspense>
         </div>
+      )}
+
+      {/* Company Details Modal — triggered by agent at end of conversation */}
+      {showCompanyForm && (
+        <CompanyDetailsModal onClose={() => setShowCompanyForm(false)} />
       )}
     </div>
   );

@@ -125,7 +125,8 @@ export function useLiveKit({ onAnimationChange, enabled = true }) {
                         text.includes('function_call') ||
                         text.includes('navigate_to_section') ||
                         text.includes('open_url') ||
-                        text.includes('get_product_info')
+                        text.includes('get_product_info') ||
+                        text.includes('show_company_details_form')
                     ) {
                         return
                     }
@@ -174,6 +175,11 @@ export function useLiveKit({ onAnimationChange, enabled = true }) {
                                     if (navigationData.action === 'open_url') {
                                         window.open(navigationData.url, '_blank')
                                         return JSON.stringify({ success: true, message: 'URL opened' })
+                                    } else if (navigationData.action === 'show_company_form') {
+                                        // Dispatch event to show company details modal
+                                        const event = new CustomEvent('show-company-form')
+                                        window.dispatchEvent(event)
+                                        return JSON.stringify({ success: true, message: 'Company form shown' })
                                     } else if (navigationData.action === 'navigate_same_tab') {
                                         let targetUrl = navigationData.path
                                         if (navigationData.section) {
