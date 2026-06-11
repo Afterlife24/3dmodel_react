@@ -843,10 +843,11 @@ body {
   animation: speech-bubble-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-/* Mobile: agent speech bubble positioned between tagline and robot head */
+/* Mobile: agent speech bubble in gap between hero text and robot head.
+   Pinned below the hero text area; grows downward; line-clamp controls max content. */
 @media screen and (max-width: 767px) {
   .agent-speech-bubble {
-    top: 20%;
+    top: 28%;
     bottom: auto;
     left: 10px;
     right: 10px;
@@ -855,7 +856,6 @@ body {
     width: auto;
     padding: 10px 14px;
     border-radius: 12px;
-    max-height: none;
     overflow: hidden;
   }
   .agent-speech-tail {
@@ -863,9 +863,9 @@ body {
   }
   .agent-speech-text {
     font-size: 12px;
-    line-height: 1.5;
+    line-height: 1.4;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
     word-wrap: break-word;
@@ -876,12 +876,12 @@ body {
 
 @media screen and (max-width: 380px) {
   .agent-speech-bubble {
-    top: 19%;
+    top: 27%;
     padding: 8px 12px;
   }
   .agent-speech-text {
     font-size: 11px;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 4;
   }
 }
 
