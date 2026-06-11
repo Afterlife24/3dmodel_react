@@ -843,11 +843,15 @@ body {
   animation: speech-bubble-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-/* Mobile: agent speech bubble in gap between hero text and robot head.
-   Pinned below the hero text area; grows downward; line-clamp controls max content. */
+/* Mobile: agent speech bubble in-flow below the hero text — responsive to all screen sizes */
 @media screen and (max-width: 767px) {
-  .agent-speech-bubble {
-    top: 28%;
+  .agent-speech-bubble-desktop {
+    display: none !important;
+  }
+  .agent-speech-bubble-mobile {
+    position: fixed;
+    /* Dynamically position below hero: nav height + brand text size + tagline + breathing room */
+    top: calc(env(safe-area-inset-top, 0px) + 56px + clamp(3rem, calc(7vw + 0.5rem), 3.2rem) + 1.5rem + 1.5rem + 0.5rem);
     bottom: auto;
     left: 10px;
     right: 10px;
@@ -856,12 +860,20 @@ body {
     width: auto;
     padding: 10px 14px;
     border-radius: 12px;
+    z-index: 30;
+    background: rgba(5, 13, 38, 0.9);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(72, 229, 255, 0.3);
+    box-shadow:
+      0 0 30px rgba(72, 229, 255, 0.1),
+      0 8px 32px rgba(0, 0, 0, 0.4);
+    animation: speech-bubble-in-mobile 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     overflow: hidden;
   }
-  .agent-speech-tail {
+  .agent-speech-bubble-mobile .agent-speech-tail {
     display: none;
   }
-  .agent-speech-text {
+  .agent-speech-bubble-mobile .agent-speech-text {
     font-size: 12px;
     line-height: 1.4;
     display: -webkit-box;
@@ -875,13 +887,32 @@ body {
 }
 
 @media screen and (max-width: 380px) {
-  .agent-speech-bubble {
-    top: 27%;
+  .agent-speech-bubble-mobile {
+    /* Smaller brand text on tiny screens — adjust accordingly */
+    top: calc(env(safe-area-inset-top, 0px) + 56px + clamp(1.2rem, calc(7vw + 0.3rem), 2.2rem) + 1.2rem + 1.2rem + 0.5rem);
     padding: 8px 12px;
   }
-  .agent-speech-text {
+  .agent-speech-bubble-mobile .agent-speech-text {
     font-size: 11px;
     -webkit-line-clamp: 4;
+  }
+}
+
+/* Desktop: hide the mobile in-flow bubble, show the fixed positioned one */
+@media screen and (min-width: 768px) {
+  .agent-speech-bubble-mobile {
+    display: none !important;
+  }
+}
+
+@keyframes speech-bubble-in-mobile {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 

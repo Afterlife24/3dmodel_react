@@ -170,6 +170,17 @@ function App() {
         </div>
       )}
 
+      {/* Agent speech bubble — placed in flow after hero text on mobile so it's always below the company name */}
+      {isHome && voiceSessionStarted && agentText && (
+        <div className="agent-speech-bubble-mobile">
+          <TypewriterText
+            text={agentText}
+            speed={25}
+            className="agent-speech-text"
+          />
+        </div>
+      )}
+
       {/* 3D Avatar — always visible on home; gated by auth+voiceSession for widget mode */}
       {(isHome || (isAuthed && voiceSessionStarted)) && (
         <div
@@ -425,9 +436,9 @@ function App() {
         </div>
       )}
 
-      {/* Agent speech bubble — at model head level */}
+      {/* Agent speech bubble — desktop only (mobile version is rendered above) */}
       {isHome && voiceSessionStarted && agentText && (
-        <div className="agent-speech-bubble">
+        <div className="agent-speech-bubble agent-speech-bubble-desktop">
           <div className="agent-speech-tail" />
           <TypewriterText
             text={agentText}
