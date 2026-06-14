@@ -45,7 +45,6 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   width: 100vw;
-  overflow-x: hidden;
 }
 
 ::-webkit-scrollbar {
@@ -61,7 +60,7 @@ body {
   background: #050d26;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
+  overflow: clip;
   position: relative;
 }
 
@@ -2782,6 +2781,18 @@ footer.revealed {
 .agent-section__list li:nth-child(4) { transition-delay: 180ms; }
 .agent-section__list li:nth-child(5) { transition-delay: 240ms; }
 .agent-section__list li:nth-child(6) { transition-delay: 300ms; }
+
+/* ── Mobile: simplify all animations to vertical slide-up only ── */
+@media screen and (max-width: 900px) {
+  .scroll-animations-ready .agent-section__text,
+  .scroll-animations-ready .agent-section__inner--reverse .agent-section__text,
+  .scroll-animations-ready .agent-section__visual,
+  .scroll-animations-ready .agent-section__inner--reverse .agent-section__visual,
+  .scroll-animations-ready .agent-section__list li,
+  .scroll-animations-ready .agent-section__inner--reverse .agent-section__list li {
+    transform: translateY(2rem);
+  }
+}
 
 /* ── Reduce motion for accessibility ── */
 @media (prefers-reduced-motion: reduce) {
