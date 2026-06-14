@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Mail, MapPin, Phone } from "lucide-react";
-import { FaInstagram, FaTiktok, FaFacebook } from "react-icons/fa";
+import { FaInstagram, FaTiktok, FaFacebook, FaLinkedin } from "react-icons/fa";
 import { useLanguage } from "../contexts/LanguageContext";
 
 export default function Footer() {
@@ -51,6 +51,15 @@ export default function Footer() {
               aria-label="Facebook"
             >
               <FaFacebook size={18} />
+            </a>
+            <a
+              href="https://www.linkedin.com/company/ai-autonomiq/posts/?feedView=all"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 bg-white/10 rounded-full text-gray-300 hover:text-white hover:bg-[#0a66c2] transition-all shadow-sm"
+              aria-label="LinkedIn"
+            >
+              <FaLinkedin size={18} />
             </a>
           </div>
         </div>

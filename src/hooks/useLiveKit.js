@@ -335,5 +335,25 @@ export function useLiveKit({ onAnimationChange, enabled = true }) {
         }
     }, [isMicMuted])
 
-    return { status, agentText, userText, errorMsg, isMicMuted, toggleMic }
+    const disconnect = useCallback(() => {
+        const track = localTrackRef.current
+        if (track) {
+            track.stop()
+            localTrackRef.current = null
+        }
+        const room = roomRef.current
+        if (room) {
+            room.disconnect()
+            roomRef.current = null
+        }
+        setStatus('disconnected')
+        setAgentText('')
+        setUserText('')
+        setErrorMsg('')
+        setIsMicMuted(false)
+        isFirstSpeech.current = true
+        onAnimationChange('idle')
+    }, [onAnimationChange])
+
+    return { status, agentText, userText, errorMsg, isMicMuted, toggleMic, disconnect }
 }
