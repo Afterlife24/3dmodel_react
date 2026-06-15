@@ -33,6 +33,8 @@ jobs:
           VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL }}
           VITE_WHATSAPP_BACKEND_URL: ${{ secrets.VITE_WHATSAPP_BACKEND_URL }}
           VITE_CALLING_BACKEND_URL: ${{ secrets.VITE_CALLING_BACKEND_URL }}
+          VITE_WHATSAPP_NUMBER: ${{ secrets.VITE_WHATSAPP_NUMBER }}
+          VITE_INBOUND_CALL_NUMBER: ${{ secrets.VITE_INBOUND_CALL_NUMBER }}
 
       - name: Upload to S3
         uses: jakejarvis/s3-sync-action@master
