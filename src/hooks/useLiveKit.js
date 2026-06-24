@@ -183,7 +183,7 @@ export function useLiveKit({ onAnimationChange, enabled = true }) {
                                     } else if (navigationData.action === 'navigate_same_tab') {
                                         let targetUrl = navigationData.path
                                         if (navigationData.section) {
-                                            const scrollSections = ['vision', 'services', 'testimonials', 'meet-assistants', 'demo', 'ai-workforce', 'whatsapp-agent', 'web-agent', 'industries']
+                                            const scrollSections = ['vision', 'services', 'testimonials', 'meet-assistants', 'demo', 'ai-workforce', 'whatsapp-agent', 'web-agent', 'calling-agent', 'industries']
                                             const action = scrollSections.includes(navigationData.section) ? 'scroll' : 'expand'
                                             targetUrl = `${navigationData.path}?action=${action}&section=${navigationData.section}`
                                         }

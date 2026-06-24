@@ -6,7 +6,13 @@ import {
   lazy,
   Suspense,
 } from "react";
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { Canvas } from "@react-three/fiber";
 import Model from "./components/Model";
 import Stage from "./components/Stage";
@@ -14,7 +20,7 @@ import TypewriterText from "./components/TypewriterText";
 import AgentButtons from "./components/AgentButtons";
 import NavBar from "./shared-components/NavBar";
 import Footer from "./shared-components/Footer";
-import CompanyDetailsModal from "./components/CompanyDetailsModal";
+import BookAppointmentModal from "./components/BookAppointmentModal";
 import { useLiveKit } from "./hooks/useLiveKit";
 import { useScrollAnimations } from "./hooks/useScrollAnimations";
 import { useAuth } from "./contexts/AuthContext";
@@ -34,7 +40,7 @@ const VerifyEmail = lazy(() => import("./pages/VerifyEmail"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
-const CompanyDetails = lazy(() => import("./pages/CompanyDetails"));
+const BookAppointment = lazy(() => import("./pages/BookAppointment"));
 
 function App() {
   const [currentAnimation, setCurrentAnimation] = useState("idle");
@@ -115,13 +121,15 @@ function App() {
       try {
         const parsed = new URL(url, window.location.origin);
         const section = parsed.searchParams.get("section");
-        if (parsed.pathname === "/" && section) {
+        const action = parsed.searchParams.get("action");
+        if (section) {
           const sectionRouteMap = {
             services: "/solutions",
             vision: "/about",
             testimonials: "/about",
             voice: "/ai-assistants",
             calling: "/ai-assistants",
+            "calling-agent": "/ai-assistants",
             web: "/ai-assistants",
             whatsapp: "/ai-assistants",
             "meet-assistants": "/ai-assistants",
@@ -131,8 +139,13 @@ function App() {
             "web-agent": "/ai-assistants",
             industries: "/ai-assistants",
           };
-          const targetRoute = sectionRouteMap[section] || "/";
-          navigate(targetRoute);
+          const targetRoute =
+            sectionRouteMap[section] || parsed.pathname || "/";
+          // Pass query params so the page's own scroll handler picks them up
+          const targetUrl = action
+            ? `${targetRoute}?action=${action}&section=${section}`
+            : targetRoute;
+          navigate(targetUrl);
           return;
         }
       } catch (_) {}
@@ -636,15 +649,19 @@ function App() {
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/cookie-policy" element={<CookiePolicy />} />
               <Route path="/terms-of-service" element={<TermsOfService />} />
-              <Route path="/company-details" element={<CompanyDetails />} />
+              <Route path="/book-appointment" element={<BookAppointment />} />
+              <Route
+                path="/company-details"
+                element={<Navigate to="/book-appointment" replace />}
+              />
             </Routes>
           </Suspense>
         </div>
       )}
 
-      {/* Company Details Modal */}
+      {/* Book Appointment Modal */}
       {showCompanyForm && (
-        <CompanyDetailsModal onClose={() => setShowCompanyForm(false)} />
+        <BookAppointmentModal onClose={() => setShowCompanyForm(false)} />
       )}
     </div>
   );

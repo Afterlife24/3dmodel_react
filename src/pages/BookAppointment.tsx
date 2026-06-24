@@ -13,7 +13,7 @@ interface CompanyData {
   email: string;
 }
 
-export default function CompanyDetails() {
+export default function BookAppointment() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");

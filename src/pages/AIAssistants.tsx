@@ -548,6 +548,120 @@ export default function AIAssistants() {
             </div>
           </div>
 
+          {/* Calling Agent Section */}
+          <div id="calling-agent" className="mb-16 sm:mb-24">
+            <div className="bg-[#0a2a3a]/80 backdrop-blur-xl border border-cyan-500/20 rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-12 shadow-xl">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-4 sm:mb-6">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center shadow-lg">
+                  <Phone className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-2xl sm:text-4xl font-bold text-white">
+                    Calling Agent
+                  </h2>
+                  <p className="text-base sm:text-xl text-gray-200">
+                    AI-Powered Voice Calls
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-gray-200 text-lg mb-8 leading-relaxed">
+                AI-powered outbound and inbound phone calls with a natural human
+                voice. Qualifies leads, schedules appointments, handles
+                objections, and transfers to a human — all without manual
+                effort.
+              </p>
+
+              <div className="grid md:grid-cols-2 gap-8 mb-8">
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-4">
+                    What It Can Do
+                  </h3>
+                  <ul className="space-y-2">
+                    {[
+                      "Natural voice with adaptive interruption handling",
+                      "Inbound and outbound call automation",
+                      "Lead qualification and appointment scheduling",
+                      "Product explanations and sales follow-ups",
+                      "Transfer to a human agent when needed",
+                      "Voicemail detection and graceful hangup",
+                    ].map((item, idx) => (
+                      <li
+                        key={idx}
+                        className="flex items-start gap-2 text-gray-200"
+                      >
+                        <CheckCircle
+                          size={18}
+                          className="mt-0.5 flex-shrink-0 text-orange-500"
+                        />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-4">
+                    Best For
+                  </h3>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {[
+                      "Customer Support",
+                      "Sales Follow-ups",
+                      "Appointment Booking",
+                      "Lead Qualification",
+                      "Call-heavy Operations",
+                      "24/7 Availability",
+                    ].map((app, idx) => (
+                      <span
+                        key={idx}
+                        className="px-4 py-2 bg-orange-500/30 text-orange-100 rounded-full text-sm font-medium border border-orange-500/40"
+                      >
+                        {app}
+                      </span>
+                    ))}
+                  </div>
+
+                  <h3 className="text-xl font-bold text-white mb-4">
+                    Integrations
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    <div className="flex items-center gap-1.5 px-3 py-2 bg-[#0d3a4a]/60 rounded-lg border border-cyan-500/30 hover:bg-[#0d3a4a]/90 transition-colors">
+                      <SiSalesforce className="w-5 h-5 text-cyan-400" />
+                      <span className="text-sm font-medium text-gray-200">
+                        Salesforce
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5 px-3 py-2 bg-[#0d3a4a]/60 rounded-lg border border-cyan-500/30 hover:bg-[#0d3a4a]/90 transition-colors">
+                      <SiHubspot className="w-5 h-5 text-cyan-400" />
+                      <span className="text-sm font-medium text-gray-200">
+                        HubSpot
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5 px-3 py-2 bg-[#0d3a4a]/60 rounded-lg border border-cyan-500/30 hover:bg-[#0d3a4a]/90 transition-colors">
+                      <SiGooglecalendar className="w-5 h-5 text-cyan-400" />
+                      <span className="text-sm font-medium text-gray-200">
+                        Google Calendar
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5 px-3 py-2 bg-[#0d3a4a]/60 rounded-lg border border-cyan-500/30 hover:bg-[#0d3a4a]/90 transition-colors">
+                      <SiN8N className="w-5 h-5 text-cyan-400" />
+                      <span className="text-sm font-medium text-gray-200">
+                        n8n
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5 px-3 py-2 bg-[#0d3a4a]/60 rounded-lg border border-cyan-500/30 hover:bg-[#0d3a4a]/90 transition-colors">
+                      <MdDashboard className="w-5 h-5 text-cyan-400" />
+                      <span className="text-sm font-medium text-gray-200">
+                        Dashboards
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Web Agent Section */}
           <div id="web-agent" className="mb-16 sm:mb-24">
             <div className="bg-[#0a2a3a]/80 backdrop-blur-xl border border-cyan-500/20 rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-12 shadow-xl">

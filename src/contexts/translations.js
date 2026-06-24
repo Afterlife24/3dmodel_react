@@ -6,6 +6,7 @@ export const translations = {
     "nav.about": "About Us",
     "nav.teams": "AI Assistants",
     "nav.solutions": "Solutions",
+    "nav.bookAppointment": "Booking Appointment",
 
     // Hero Section (Home Page)
     "hero.title": "Transform Customer Experience with AI Agents",
@@ -378,6 +379,7 @@ export const translations = {
     "nav.about": "À propos",
     "nav.teams": "Assistants IA",
     "nav.solutions": "Solutions",
+    "nav.bookAppointment": "Prendre rendez-vous",
 
     // Agent Cards
     "agent.voice.title": "Agent d'appel",
@@ -750,6 +752,7 @@ export const translations = {
     "nav.about": "من نحن",
     "nav.teams": "المساعدون الذكيون",
     "nav.solutions": "الحلول",
+    "nav.bookAppointment": "حجز موعد",
 
     // Agent Cards
     "agent.voice.title": "وكيل المكالمات",

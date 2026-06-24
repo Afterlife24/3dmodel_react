@@ -14,8 +14,7 @@ const NAV_LINKS = [
   { path: "/about", key: "nav.about" },
   { path: "/ai-assistants", key: "nav.teams" },
   { path: "/solutions", key: "nav.solutions" },
-  { path: "/blog", key: "footer.company.blog" },
-  { path: "/careers", key: "footer.company.careers" },
+  { path: "/book-appointment", key: "nav.bookAppointment" },
 ];
 
 export default function NavBar() {

@@ -12,13 +12,13 @@ interface CompanyData {
   email: string;
 }
 
-interface CompanyDetailsModalProps {
+interface BookAppointmentModalProps {
   onClose: () => void;
 }
 
-export default function CompanyDetailsModal({
+export default function BookAppointmentModal({
   onClose,
-}: CompanyDetailsModalProps) {
+}: BookAppointmentModalProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
