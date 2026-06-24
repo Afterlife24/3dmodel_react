@@ -1,7 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Mail, MapPin, Phone } from "lucide-react";
-import { FaInstagram, FaTiktok, FaFacebook, FaLinkedin } from "react-icons/fa";
+import {
+  FaInstagram,
+  FaTiktok,
+  FaFacebook,
+  FaLinkedin,
+  FaYoutube,
+} from "react-icons/fa";
 import { useLanguage } from "../contexts/LanguageContext";
 
 export default function Footer() {
@@ -26,13 +32,40 @@ export default function Footer() {
           </p>
           <div className="flex gap-4">
             <a
-              href="https://www.instagram.com/auto.nomiqai?igsh=bzF0ZHB3dHFmc2Yy&utm_source=qr"
+              href="https://www.facebook.com/autonomiqofficial"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 bg-white/10 rounded-full text-gray-300 hover:text-white hover:bg-blue-600 transition-all shadow-sm"
+              aria-label="Facebook"
+            >
+              <FaFacebook size={18} />
+            </a>
+            <a
+              href="https://www.instagram.com/auto.nomiq?igsh=MXVpeHRjNzZ0ZHlnaQ=="
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 bg-white/10 rounded-full text-gray-300 hover:text-white hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 transition-all shadow-sm"
               aria-label="Instagram"
             >
               <FaInstagram size={18} />
+            </a>
+            <a
+              href="https://www.linkedin.com/company/132194283/admin/dashboard/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 bg-white/10 rounded-full text-gray-300 hover:text-white hover:bg-[#0a66c2] transition-all shadow-sm"
+              aria-label="LinkedIn"
+            >
+              <FaLinkedin size={18} />
+            </a>
+            <a
+              href="https://youtube.com/@autonomiqai7?si=WEjWWcBKJa01TiBc"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 bg-white/10 rounded-full text-gray-300 hover:text-white hover:bg-red-600 transition-all shadow-sm"
+              aria-label="YouTube"
+            >
+              <FaYoutube size={18} />
             </a>
             <a
               href="https://www.tiktok.com/@autonomiq.ai5?_r=1&_t=ZN-95DGLJnusP0"
@@ -42,24 +75,6 @@ export default function Footer() {
               aria-label="TikTok"
             >
               <FaTiktok size={18} />
-            </a>
-            <a
-              href="https://www.facebook.com/share/1Nt27vS99s/?mibextid=wwXIfr"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 bg-white/10 rounded-full text-gray-300 hover:text-white hover:bg-blue-600 transition-all shadow-sm"
-              aria-label="Facebook"
-            >
-              <FaFacebook size={18} />
-            </a>
-            <a
-              href="https://www.linkedin.com/company/ai-autonomiq/posts/?feedView=all"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 bg-white/10 rounded-full text-gray-300 hover:text-white hover:bg-[#0a66c2] transition-all shadow-sm"
-              aria-label="LinkedIn"
-            >
-              <FaLinkedin size={18} />
             </a>
           </div>
         </div>
