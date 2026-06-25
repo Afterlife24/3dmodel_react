@@ -58,11 +58,15 @@ export default function NavBar() {
             <Link
               key={link.path}
               to={link.path}
-              className={`px-3 py-2 text-sm font-medium rounded-full border backdrop-blur-md transition-colors ${
-                location.pathname === link.path
-                  ? "text-cyan-400 bg-white/15 border-cyan-500/30"
-                  : "text-gray-300 bg-white/10 border-white/20 hover:bg-white/20 hover:text-white"
-              }`}
+              className={
+                link.path === "/book-appointment"
+                  ? "px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full hover:from-cyan-400 hover:to-blue-500 transition-all"
+                  : `px-3 py-2 text-sm font-medium rounded-full border backdrop-blur-md transition-colors ${
+                      location.pathname === link.path
+                        ? "text-cyan-400 bg-white/15 border-cyan-500/30"
+                        : "text-gray-300 bg-white/10 border-white/20 hover:bg-white/20 hover:text-white"
+                    }`
+              }
             >
               {t(link.key)}
             </Link>

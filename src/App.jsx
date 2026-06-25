@@ -79,6 +79,27 @@ function App() {
     setCurrentAnimation(anim);
   }, []);
 
+  // Log agent usage to backend
+  const logAgentUsage = useCallback(async (agentType) => {
+    if (!user) return;
+    try {
+      const AUTH_API = import.meta.env.VITE_AUTH_API || "http://localhost:5000/api/auth";
+      const API_URL = AUTH_API.replace(/\/auth$/, "");
+      
+      await fetch(`${API_URL}/agent-usage/log`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          userEmail: user.email, 
+          userName: user.name, 
+          agentType 
+        }),
+      });
+    } catch (err) {
+      console.warn("Failed to log agent usage:", err);
+    }
+  }, [user]);
+
   // "Talk to Me" button handler
   const handleTalkToMe = useCallback(async () => {
     if (!isAuthed) {
@@ -90,11 +111,14 @@ function App() {
       stream.getTracks().forEach((track) => track.stop());
       setMicDenied(false);
       setVoiceSessionStarted(true);
+      
+      // Log usage for web agent (Talk to Me)
+      logAgentUsage("web");
     } catch (err) {
       console.warn("[Mic] Permission denied:", err);
       setMicDenied(true);
     }
-  }, [isAuthed, navigate]);
+  }, [isAuthed, navigate, logAgentUsage]);
 
   useEffect(() => {
     if (isAuthed && isHome && !voiceSessionStarted) {

@@ -6,8 +6,6 @@ export default function Stage() {
         <div className="stage-glow"></div>
 
         {/* Platform layers */}
-        <div className="platform-layer platform-layer-1"></div>
-        <div className="platform-layer platform-layer-2"></div>
         <div className="platform-layer platform-layer-3"></div>
         <div className="platform-layer platform-layer-4"></div>
 

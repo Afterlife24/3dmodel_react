@@ -70,9 +70,9 @@ export default function Login() {
     const result = await login(email, password);
     setLoading(false);
     if (result.success) {
-      navigate("/");
+      navigate("/", { replace: true });
     } else if (result.needsVerification) {
-      navigate(`/verify-email?email=${encodeURIComponent(email)}`);
+      navigate(`/verify-email?email=${encodeURIComponent(email)}`, { replace: true });
     } else {
       setError(result.error || t("auth.login.error"));
     }
@@ -89,7 +89,7 @@ export default function Login() {
         email: profile.email,
         avatar: profile.picture,
       });
-      if (result.success) navigate("/");
+      if (result.success) navigate("/", { replace: true });
       else setError(result.error || "Google login failed");
     } catch {
       setError("Google login failed");

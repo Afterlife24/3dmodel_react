@@ -98,7 +98,7 @@ export default function BookAppointment() {
         throw new Error(errorMsg);
       }
 
-      setSuccess("Company details saved successfully!");
+      setSuccess("We've received your information, our team will contact you shortly.");
       setTimeout(() => {
         navigate("/");
       }, 2000);

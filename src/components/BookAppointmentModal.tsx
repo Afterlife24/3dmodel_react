@@ -82,7 +82,7 @@ export default function BookAppointmentModal({
         throw new Error(errorMsg);
       }
 
-      setSuccess("Company details saved successfully!");
+      setSuccess("We've received your information, our team will contact you shortly.");
       setTimeout(() => {
         onClose();
       }, 2000);

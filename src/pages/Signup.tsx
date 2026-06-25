@@ -93,7 +93,7 @@ export default function Signup() {
     const result = await signup(name, email, password);
     setLoading(false);
     if (result.success) {
-      navigate(`/verify-email?email=${encodeURIComponent(email)}`);
+      navigate(`/verify-email?email=${encodeURIComponent(email)}`, { replace: true });
     } else {
       setError(result.error || t("auth.signup.exists"));
     }
@@ -110,7 +110,7 @@ export default function Signup() {
         email: profile.email,
         avatar: profile.picture,
       });
-      if (result.success) navigate("/");
+      if (result.success) navigate("/", { replace: true });
       else setError(result.error || "Google signup failed");
     } catch {
       setError("Google signup failed");
