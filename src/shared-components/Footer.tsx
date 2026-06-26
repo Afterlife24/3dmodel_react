@@ -68,7 +68,7 @@ export default function Footer() {
               <FaYoutube size={18} />
             </a>
             <a
-              href="https://www.tiktok.com/@autonomiq.ai5?_r=1&_t=ZN-95DGLJnusP0"
+              href="https://www.tiktok.com/@autonomiq.ai7?_r=1&_t=ZS-97VWHUavlMC"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 bg-white/10 rounded-full text-gray-300 hover:text-white hover:bg-black transition-all shadow-sm"
