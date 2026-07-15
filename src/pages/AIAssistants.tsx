@@ -20,14 +20,18 @@ import {
 import {
   SiGmail,
   SiWhatsapp,
-  SiSlack,
   SiHubspot,
   SiGooglecloud,
   SiN8N,
   SiGooglecalendar,
 } from "react-icons/si";
 import { MdEmail, MdSms, MdPointOfSale, MdDashboard } from "react-icons/md";
-import { FaMicrosoft, FaCalendarAlt, FaSalesforce } from "react-icons/fa";
+import {
+  FaMicrosoft,
+  FaCalendarAlt,
+  FaSalesforce,
+  FaSlack,
+} from "react-icons/fa";
 import { useLanguage } from "../contexts/LanguageContext";
 import AmbientBackground from "../shared-components/AmbientBackground";
 import Footer from "../shared-components/Footer";
@@ -110,7 +114,7 @@ export default function AIAssistants() {
           icon: <SiGooglecloud className="w-4 h-4" />,
         },
         { name: "Microsoft 365", icon: <FaMicrosoft className="w-4 h-4" /> },
-        { name: "Slack", icon: <SiSlack className="w-4 h-4" /> },
+        { name: "Slack", icon: <FaSlack className="w-4 h-4" /> },
         { name: "Email", icon: <MdEmail className="w-4 h-4" /> },
       ],
     },
