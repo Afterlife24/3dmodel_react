@@ -20,7 +20,6 @@ import {
 import {
   SiGmail,
   SiWhatsapp,
-  SiSalesforce,
   SiSlack,
   SiHubspot,
   SiGooglecloud,
@@ -28,7 +27,7 @@ import {
   SiGooglecalendar,
 } from "react-icons/si";
 import { MdEmail, MdSms, MdPointOfSale, MdDashboard } from "react-icons/md";
-import { FaMicrosoft, FaCalendarAlt } from "react-icons/fa";
+import { FaMicrosoft, FaCalendarAlt, FaSalesforce } from "react-icons/fa";
 import { useLanguage } from "../contexts/LanguageContext";
 import AmbientBackground from "../shared-components/AmbientBackground";
 import Footer from "../shared-components/Footer";
@@ -84,7 +83,7 @@ export default function AIAssistants() {
       integrations: [
         { name: "Gmail", icon: <SiGmail className="w-4 h-4" /> },
         { name: "WhatsApp", icon: <SiWhatsapp className="w-4 h-4" /> },
-        { name: "Salesforce", icon: <SiSalesforce className="w-4 h-4" /> },
+        { name: "Salesforce", icon: <FaSalesforce className="w-4 h-4" /> },
       ],
     },
     {
@@ -134,7 +133,7 @@ export default function AIAssistants() {
         t("aiAssistantsPage.sales.capability5"),
       ],
       integrations: [
-        { name: "Salesforce", icon: <SiSalesforce className="w-4 h-4" /> },
+        { name: "Salesforce", icon: <FaSalesforce className="w-4 h-4" /> },
         { name: "HubSpot", icon: <SiHubspot className="w-4 h-4" /> },
         { name: "WhatsApp", icon: <SiWhatsapp className="w-4 h-4" /> },
         { name: "SMS", icon: <MdSms className="w-4 h-4" /> },
@@ -513,7 +512,7 @@ export default function AIAssistants() {
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     <div className="flex items-center gap-1.5 px-3 py-2 bg-[#0d3a4a]/60 rounded-lg border border-cyan-500/30 hover:bg-[#0d3a4a]/90 transition-colors">
-                      <SiSalesforce className="w-5 h-5 text-cyan-400" />
+                      <FaSalesforce className="w-5 h-5 text-cyan-400" />
                       <span className="text-sm font-medium text-gray-200">
                         Salesforce
                       </span>
@@ -627,7 +626,7 @@ export default function AIAssistants() {
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     <div className="flex items-center gap-1.5 px-3 py-2 bg-[#0d3a4a]/60 rounded-lg border border-cyan-500/30 hover:bg-[#0d3a4a]/90 transition-colors">
-                      <SiSalesforce className="w-5 h-5 text-cyan-400" />
+                      <FaSalesforce className="w-5 h-5 text-cyan-400" />
                       <span className="text-sm font-medium text-gray-200">
                         Salesforce
                       </span>
@@ -737,7 +736,7 @@ export default function AIAssistants() {
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     <div className="flex items-center gap-1.5 px-3 py-2 bg-[#0d3a4a]/60 rounded-lg border border-cyan-500/30 hover:bg-[#0d3a4a]/90 transition-colors">
-                      <SiSalesforce className="w-5 h-5 text-cyan-400" />
+                      <FaSalesforce className="w-5 h-5 text-cyan-400" />
                       <span className="text-sm font-medium text-gray-200">
                         Salesforce
                       </span>
