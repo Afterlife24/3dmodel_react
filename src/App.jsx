@@ -23,6 +23,7 @@ import Footer from "./shared-components/Footer";
 import BookAppointmentModal from "./components/BookAppointmentModal";
 import { useLiveKit } from "./hooks/useLiveKit";
 import { useScrollAnimations } from "./hooks/useScrollAnimations";
+import { useSeo } from "./hooks/useSeo";
 import { useAuth } from "./contexts/AuthContext";
 import { useLanguage } from "./contexts/LanguageContext";
 
@@ -57,6 +58,9 @@ function App() {
   const homeRef = useRef(null);
 
   const isHome = location.pathname === "/";
+
+  // Keeps title/description/canonical/OG tags in sync with the active route
+  useSeo();
 
   // Scroll-triggered animations for agent sections
   useScrollAnimations(homeRef, isHome);
@@ -221,7 +225,14 @@ function App() {
           <section className="home-hero">
             {/* Hero text */}
             <div className="home-hero__text">
-              <div className="hero-brand-text">AUTONOMIQ AI</div>
+              {/* Single h1 for the site — gives crawlers the primary heading */}
+              <h1 className="hero-brand-text">
+                AUTONOMIQ AI
+                <span className="sr-only">
+                  {" "}
+                  — AI voice, web, and WhatsApp agents for business
+                </span>
+              </h1>
               <p className="hero-tagline hero-tagline-floating">
                 {t("talkToMe.tagline")}
               </p>

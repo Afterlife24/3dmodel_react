@@ -2,10 +2,53 @@
 <html lang="en">
 
 <head>
+  <!-- Google Tag Manager -->
+  <script>
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-PJCGMJ2S');
+  </script>
+  <!-- End Google Tag Manager -->
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#050508" />
-  <title>Autonomiq — AI Assistant</title>
+
+  <!-- ═══════════════ PRIMARY SEO ═══════════════ -->
+  <title>Autonomiq — AI Voice, Web &amp; WhatsApp Agents for Business</title>
+  <meta name="description"
+    content="Autonomiq builds AI agents that talk to your customers — a 3D web concierge, an outbound calling agent, and a WhatsApp assistant. Qualify leads, book appointments, and answer questions 24/7." />
+  <meta name="keywords"
+    content="AI agents, AI voice agent, AI calling agent, WhatsApp AI agent, web agent, AI concierge, conversational AI, lead qualification, appointment booking, Autonomiq, AI agents UAE, AI agents Dubai" />
+  <meta name="author" content="Autonomiq" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <link rel="canonical" href="https://autonomiq.ae/" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/assets/logo.jpeg" />
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
+  <!-- ═══════════════ OPEN GRAPH (Facebook / LinkedIn / WhatsApp) ═══════════════ -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Autonomiq" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://autonomiq.ae/" />
+  <meta property="og:title" content="Autonomiq — AI Voice, Web &amp; WhatsApp Agents for Business" />
+  <meta property="og:description"
+    content="AI agents that talk to your customers — a 3D web concierge, an outbound calling agent, and a WhatsApp assistant working 24/7." />
+  <meta property="og:image" content="https://autonomiq.ae/assets/logo.jpeg" />
+  <meta property="og:image:alt" content="Autonomiq — AI agents platform" />
+
+  <!-- ═══════════════ TWITTER / X CARD ═══════════════ -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Autonomiq — AI Voice, Web &amp; WhatsApp Agents for Business" />
+  <meta name="twitter:description"
+    content="AI agents that talk to your customers — a 3D web concierge, an outbound calling agent, and a WhatsApp assistant working 24/7." />
+  <meta name="twitter:image" content="https://autonomiq.ae/assets/logo.jpeg" />
 
   <!-- Preconnect to Google Fonts for faster font loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -25,6 +68,61 @@
 
   <!-- Preload the 3D model so it starts downloading immediately -->
   <link rel="preload" href="/idle_wave_talk_glb.glb" as="fetch" crossorigin />
+
+  <!-- ═══════════════ STRUCTURED DATA (JSON-LD) ═══════════════ -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://autonomiq.ae/#organization",
+          "name": "Autonomiq",
+          "url": "https://autonomiq.ae/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://autonomiq.ae/assets/logo.jpeg"
+          },
+          "description": "Autonomiq builds AI agents for voice calls, websites, and WhatsApp that qualify leads, book appointments, and support customers around the clock.",
+          "areaServed": "AE",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "sales",
+            "availableLanguage": ["en", "ar"]
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://autonomiq.ae/#website",
+          "url": "https://autonomiq.ae/",
+          "name": "Autonomiq",
+          "inLanguage": "en",
+          "publisher": { "@id": "https://autonomiq.ae/#organization" }
+        },
+        {
+          "@type": "Service",
+          "name": "AI Web Agent",
+          "serviceType": "AI website concierge",
+          "provider": { "@id": "https://autonomiq.ae/#organization" },
+          "description": "An interactive 3D AI avatar that guides website visitors, answers questions by voice in real time, and converts them into qualified leads."
+        },
+        {
+          "@type": "Service",
+          "name": "AI Calling Agent",
+          "serviceType": "AI outbound voice calling",
+          "provider": { "@id": "https://autonomiq.ae/#organization" },
+          "description": "AI-powered outbound phone calls with a natural human voice that qualify leads, schedule appointments, handle objections, and transfer to a human when needed."
+        },
+        {
+          "@type": "Service",
+          "name": "AI WhatsApp Agent",
+          "serviceType": "AI messaging automation",
+          "provider": { "@id": "https://autonomiq.ae/#organization" },
+          "description": "Automated multilingual AI conversations on WhatsApp that handle support, order tracking, lead qualification, and sales follow-ups."
+        }
+      ]
+    }
+  </script>
 
   <style>
     /* Critical CSS — prevents FOUC and sets initial background */
@@ -47,7 +145,33 @@
 </head>
 
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PJCGMJ2S" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
   <div id="root"></div>
+
+  <!-- Crawler-visible fallback content: describes the site for bots that do not execute JS -->
+  <noscript>
+    <h1>Autonomiq — AI Voice, Web &amp; WhatsApp Agents</h1>
+    <p>
+      Autonomiq builds AI agents that talk to your customers: a 3D web concierge that guides visitors,
+      an outbound calling agent with a natural human voice, and a WhatsApp assistant that handles
+      support and sales conversations 24/7.
+    </p>
+    <ul>
+      <li><a href="/ai-assistants">AI Assistants</a></li>
+      <li><a href="/solutions">Solutions</a></li>
+      <li><a href="/about">About Autonomiq</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/careers">Careers</a></li>
+      <li><a href="/book-appointment">Book an appointment</a></li>
+    </ul>
+  </noscript>
+
   <script type="module" src="/src/main.jsx"></script>
 </body>
 

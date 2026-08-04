@@ -799,6 +799,8 @@ body {
   animation: hero-brand-appear 1.2s ease-out forwards;
   will-change: opacity, transform;
   line-height: 1.1;
+  /* Rendered as an <h1> for SEO — reset default heading spacing */
+  margin: 0;
 }
 
 /* Tablet View (768px - 1024px) — hero brand text */
